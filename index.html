@@ -78,6 +78,23 @@
       cursor: pointer;
     }
 
+    /* Ícono especial de Micrófono para Audios de la Memoria */
+    .icon-audio-memoria {
+      background: linear-gradient(135deg, #111111, #E91E63);
+      border: 3px solid #FFD54F;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(233, 30, 99, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .icon-audio-memoria:active {
+      transform: scale(0.9);
+    }
+
     /* --- BOTÓN FLOTANTE MEMORIA DEL PEDREGAL --- */
     .btn-flotante-galeria {
       position: fixed;
@@ -319,6 +336,13 @@
       font-size: 12px;
       color: #333;
     }
+
+    /* Reproductor de Audio Estilizado */
+    audio {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -346,6 +370,12 @@
       <h3 id="modalTitulo">Mercado Santo Domingo "LAS ROSAS"</h3>
       <div id="burbujaPregon" class="burbuja-pregon"></div>
       <p id="textoDescripcion">Surgió a la par del vertiginoso crecimiento del Pedregal de Santo Domingo...</p>
+      
+      <!-- Contenedor dinámico de Audio MP3 -->
+      <div id="contenedorAudioDrive" style="display: none; margin-bottom: 15px;">
+        <audio id="reproductorAudio" controls src=""></audio>
+      </div>
+
       <a id="linkVideo" href="" target="_blank">📺 Ver video del lugar</a>
 
       <!-- Sección de Quiz -->
@@ -401,6 +431,7 @@
     const parqueAmezquiteCoords = [19.332821262974168, -99.16477662383282];
     const santo8Coords = [19.329558139092832, -99.16802369199146];
     const hechoEnSanto8Coords = [19.31810827825619, -99.1675235919918];
+    const audioVecinaTepocatlCoords = [19.331153942618418, -99.16068534699359];
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -504,6 +535,16 @@
         ],
         mensajeExito: "¡Muy bien! El colectivo impulsa el orgullo identitario y la recuperación del espacio público.",
         audioExito: "¡Muy bien! El Colectivo Hecho en Santoocho promueve el sentido de pertenencia y el arte urbano en la comunidad."
+      },
+      audioMemoria: {
+        pregunta: "🏆 🦊 🥳 ¿Por qué son valiosos los testimonios en audio de los vecinos fundadores?",
+        opciones: [
+          { texto: "a) Preservan la historia oral y la memoria viva del nacimiento del barrio", correcta: true },
+          { texto: "b) Son relatos ficticios creados para películas", correcta: false },
+          { texto: "c) Sirven como guías comerciales de la ciudad", correcta: false }
+        ],
+        mensajeExito: "¡Exacto! La historia oral transmitida por los vecinos rescata el esfuerzo comunitarios de los orígenes.",
+        audioExito: "¡Exacto! Escuchar la voz de las y los vecinos fundadores mantiene viva la historia colectiva de nuestro Pedregal."
       }
     };
 
@@ -530,6 +571,9 @@
     const urlLogoHechoEnSanto8 = 'https://i.ibb.co/VpTxKGKC/LOGO-FINAL.png';
     const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
 
+    // Enlace de descarga directa de Audio en Google Drive
+    const urlAudioDriveDirecto = "https://docs.google.com/uc?export=download&id=1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr";
+
     // Marcadores Iconos
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const mercadoIcon = L.icon({ iconUrl: urlMercado, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -538,6 +582,15 @@
     const parqueAmezquiteIcon = L.icon({ iconUrl: urlParqueAmezquite, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const santo8Icon = L.icon({ iconUrl: urlLogoOficial, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const hechoEnSanto8Icon = L.icon({ iconUrl: urlLogoHechoEnSanto8, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
+
+    // Ícono DIV personalizado con emoji para el Audio de la Memoria
+    const audioMemoriaIcon = L.divIcon({
+      className: 'icon-audio-memoria',
+      html: '🎙️',
+      iconSize: [50, 50],
+      iconAnchor: [25, 25],
+      popupAnchor: [0, -25]
+    });
 
     // Capas
     let lineaRuta = null;
@@ -550,6 +603,7 @@
     const parqueAmezquiteMarker = L.marker(parqueAmezquiteCoords, { icon: parqueAmezquiteIcon }).addTo(map);
     const santo8Marker = L.marker(santo8Coords, { icon: santo8Icon }).addTo(map);
     const hechoEnSanto8Marker = L.marker(hechoEnSanto8Coords, { icon: hechoEnSanto8Icon }).addTo(map);
+    const audioVecinaMarker = L.marker(audioVecinaTepocatlCoords, { icon: audioMemoriaIcon }).addTo(map);
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -558,6 +612,8 @@
     const burbujaPregon = document.getElementById('burbujaPregon');
     const textoDescripcion = document.getElementById('textoDescripcion');
     const linkVideo = document.getElementById('linkVideo');
+    const contenedorAudioDrive = document.getElementById('contenedorAudioDrive');
+    const reproductorAudio = document.getElementById('reproductorAudio');
     const btnCerrar = document.getElementById('btnCerrar');
     const btnTrazarRuta = document.getElementById('btnTrazarRuta');
     const btnAbrirQuiz = document.getElementById('btnAbrirQuiz');
@@ -608,8 +664,16 @@
 
     btnCerrarGaleria.onclick = function() {
       modalGaleria.style.display = 'none';
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      detenerAudiosYVoz();
     };
+
+    function detenerAudiosYVoz() {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      if (reproductorAudio) {
+        reproductorAudio.pause();
+        reproductorAudio.currentTime = 0;
+      }
+    }
 
     btnCarruselPrev.onclick = function() { mostrarFotoCarrusel(indiceCarrusel - 1); };
     btnCarruselNext.onclick = function() { mostrarFotoCarrusel(indiceCarrusel + 1); };
@@ -647,6 +711,7 @@
 
     // Clic Mercado Las Rosas
     mercadoMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
       imgGrande.src = urlMercado;
       modalTitulo.textContent = 'Mercado Santo Domingo "LAS ROSAS"';
       burbujaPregon.innerHTML = '📢 🌽 🍎 🥑 🧔🏻‍♂️ 💖 <br><b>¡¡ PÁSELE, PÁSELE !! ¡¡ LLÉVELE, LLÉVELE !!<br>¡¡ FRUTAS Y VERDURAS FRESCAS DE HOY !!</b>';
@@ -663,6 +728,7 @@
 
     // Clic Mercado Copilco El Alto
     mercadoCopilcoMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
       imgGrande.src = urlMercadoCopilco;
       modalTitulo.textContent = 'Mercado No. 347 "Copilco El Alto"';
       burbujaPregon.style.display = 'none';
@@ -677,6 +743,7 @@
 
     // Clic Parque Tepocatl
     parqueTepocatlMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
       imgGrande.src = urlParqueTepocatl;
       modalTitulo.textContent = 'Parque Tepocatl';
       burbujaPregon.style.display = 'none';
@@ -692,6 +759,7 @@
 
     // Clic Parque Amézquite
     parqueAmezquiteMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
       imgGrande.src = urlParqueAmezquite;
       modalTitulo.textContent = 'Parque Amézquite';
       burbujaPregon.style.display = 'none';
@@ -707,6 +775,7 @@
 
     // Clic Colectivo "Sant8 también es cultura"
     santo8Marker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
       imgGrande.src = urlSanto8Modal;
       modalTitulo.textContent = 'Colectivo "Sant8 también es cultura"';
       burbujaPregon.style.display = 'none';
@@ -721,6 +790,7 @@
 
     // Clic Colectivo Hecho en Santoocho
     hechoEnSanto8Marker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
       imgGrande.src = urlImagenHechoEnSanto8;
       modalTitulo.textContent = '🎧 Colectivo Hecho en Santoocho 🎙️';
       burbujaPregon.style.display = 'none';
@@ -733,28 +803,47 @@
       hablarTexto("Colectivo Hecho en Santoocho. Una iniciativa comunitaria independiente que promueve el orgullo del barrio, la recuperación del espacio público y la cultura popular.", 1.0, 1.1);
     });
 
+    // Clic Marcador Micrófono: Audios de la Memoria
+    audioVecinaMarker.on('click', function () {
+      imgGrande.src = urlCacomixtle;
+      modalTitulo.textContent = '🎙️ Audios de la Memoria: Relato Vecinal';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha este relato de la memoria viva registrado justo en esta calle cerca del Parque Tepocatl. La voz de los vecinos que transformaron la roca en hogar."';
+      
+      // Mostrar y configurar reproductor de audio
+      reproductorAudio.src = urlAudioDriveDirecto;
+      contenedorAudioDrive.style.display = 'block';
+      
+      linkVideo.style.display = 'none';
+      destinoActual = audioVecinaTepocatlCoords;
+      
+      cargarQuiz(trivias.audioMemoria);
+      modal.style.display = 'flex';
+      hablarTexto("Escucha este relato de la memoria viva registrado justo en esta calle.", 1.0, 1.1);
+    });
+
     btnCerrar.onclick = function() { 
       modal.style.display = 'none'; 
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      detenerAudiosYVoz();
     };
 
     modal.onclick = function(e) { 
       if (e.target === modal) {
         modal.style.display = 'none';
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        detenerAudiosYVoz();
       }
     };
 
     modalGaleria.onclick = function(e) {
       if (e.target === modalGaleria) {
         modalGaleria.style.display = 'none';
-        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        detenerAudiosYVoz();
       }
     };
 
     btnTrazarRuta.onclick = function() {
       modal.style.display = 'none';
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      detenerAudiosYVoz();
       rutaActiva = true;
       trazarRutaPorCalles(userCoords, destinoActual);
     };
