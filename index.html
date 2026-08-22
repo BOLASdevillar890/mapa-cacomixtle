@@ -400,6 +400,7 @@
     const parqueTepocatlCoords = [19.330606797917874, -99.16074211773814];
     const parqueAmezquiteCoords = [19.332821262974168, -99.16477662383282];
     const santo8Coords = [19.329558139092832, -99.16802369199146];
+    const hechoEnSanto8Coords = [19.31810827825619, -99.1675235919918];
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -493,6 +494,16 @@
         ],
         mensajeExito: "¡Excelente! La Esquina de la Cultura es un logro de organización y amor por Santo Domingo.",
         audioExito: "¡Excelente! La Esquina de la Cultura es un espacio rescatado para el orgullo y la memoria del barrio."
+      },
+      hechoEnSanto8: {
+        pregunta: "🏆 🦊 🥳 ¿Cuál es uno de los principales ejes de trabajo del Colectivo Hecho en Santoocho?",
+        opciones: [
+          { texto: "a) Apropiación e identidad local promoviendo el orgullo del barrio", correcta: true },
+          { texto: "b) Construcción de centros comerciales masivos", correcta: false },
+          { texto: "c) Privatización de parques comunitarios", correcta: false }
+        ],
+        mensajeExito: "¡Muy bien! El colectivo impulsa el orgullo identitario y la recuperación del espacio público.",
+        audioExito: "¡Muy bien! El Colectivo Hecho en Santoocho promueve el sentido de pertenencia y el arte urbano en la comunidad."
       }
     };
 
@@ -516,6 +527,8 @@
     const urlSanto8Modal = 'https://i.ibb.co/673QP1GZ/CASA-DE-FELIPE-3.jpg';
     const urlLogoOficial = 'https://i.ibb.co/Cs3LN4z4/LOGO-OFICIAL.png';
     const urlCacomixtle = 'https://i.ibb.co/sJXgFkyV/CACOMIXTLE-PERSONAJE.png';
+    const urlLogoHechoEnSanto8 = 'https://i.ibb.co/VpTxKGKC/LOGO-FINAL.png';
+    const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
 
     // Marcadores Iconos
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -524,6 +537,7 @@
     const parqueTepocatlIcon = L.icon({ iconUrl: urlParqueTepocatl, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const parqueAmezquiteIcon = L.icon({ iconUrl: urlParqueAmezquite, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const santo8Icon = L.icon({ iconUrl: urlLogoOficial, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
+    const hechoEnSanto8Icon = L.icon({ iconUrl: urlLogoHechoEnSanto8, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
 
     // Capas
     let lineaRuta = null;
@@ -535,6 +549,7 @@
     const parqueTepocatlMarker = L.marker(parqueTepocatlCoords, { icon: parqueTepocatlIcon }).addTo(map);
     const parqueAmezquiteMarker = L.marker(parqueAmezquiteCoords, { icon: parqueAmezquiteIcon }).addTo(map);
     const santo8Marker = L.marker(santo8Coords, { icon: santo8Icon }).addTo(map);
+    const hechoEnSanto8Marker = L.marker(hechoEnSanto8Coords, { icon: hechoEnSanto8Icon }).addTo(map);
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -702,6 +717,20 @@
       cargarQuiz(trivias.santo8);
       modal.style.display = 'flex';
       hablarTexto("Colectivo Santo 8 también es cultura. Un espacio vecinal para gestionar arte, música y rescatar la memoria histórica de nuestra colonia.", 1.0, 1.1);
+    });
+
+    // Clic Colectivo Hecho en Santoocho
+    hechoEnSanto8Marker.on('click', function () {
+      imgGrande.src = urlImagenHechoEnSanto8;
+      modalTitulo.textContent = '🎧 Colectivo Hecho en Santoocho 🎙️';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'El Colectivo Hecho en Santoocho 🎙️ (también identificado en sus proyectos como Cultura del Barrio) 🎨 es una iniciativa comunitaria e independiente gestada en la colonia Pedregal de Santo Domingo, en la alcaldía Coyoacán. 🌋🏠<br><br><b>Ejes principales de su trabajo:</b><br>• <b>Apropiación e identidad local:</b> Utilizan el término "Santoocho" como una marca de orgullo identitario del barrio, 🤝 promoviendo el sentido de pertenencia frente a los estigmas históricos asociados a la colonia. 🧱<br>• <b>Recuperación del espacio público:</b> 🌳 Participan e impulsan intervenciones urbanas como muralismo, 🎨🖌️ jornadas de tequio, 🧹 y dinamización de puntos clave como el Parque Tepocatl.<br>• <b>Difusión cultural y juvenil:</b> Funcionan como plataforma 🎙️📻 de articulación para artistas locales, 🎬🎭 talleres creativos, diseño gráfico independiente, gráfica popular y registros audiovisuales 📹📸 que visibilizan la vida cotidiana, las tradiciones 🕯️ y el arte urbano 🏛️ del Santo Domingo popular. ❤️✨';
+      linkVideo.style.display = 'none';
+      destinoActual = hechoEnSanto8Coords;
+      
+      cargarQuiz(trivias.hechoEnSanto8);
+      modal.style.display = 'flex';
+      hablarTexto("Colectivo Hecho en Santoocho. Una iniciativa comunitaria independiente que promueve el orgullo del barrio, la recuperación del espacio público y la cultura popular.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
