@@ -450,7 +450,7 @@
     const audioVecinaTepocatlCoords = [19.331153942618418, -99.16068534699359];
     const casaTresRCoords = [19.318350732729414, -99.16952214102503];
     const audioDonVictorCoords = [19.33238888888889, -99.16208333333333];
-    const muralAjoloteCoords = [19.329808466647112, -99.16285897904436]; // NUEVO PUNTO
+    const muralAjoloteCoords = [19.329808466647112, -99.16285897904436];
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -621,7 +621,7 @@
     const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
     const urlCasaTresR = 'https://i.ibb.co/LXP0ccBk/FACHADA-CASA-DE-LAS-3-R.jpg';
     const urlFotoDonVictor = 'https://i.ibb.co/XxqvW4tX/foto-animada.jpg';
-    const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg'; // IMAGEN NUEVA AGREGADA
+    const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg';
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -663,7 +663,7 @@
     const audioVecinaMarker = L.marker(audioVecinaTepocatlCoords, { icon: audioMemoriaIcon }).addTo(map);
     const casaTresRMarker = L.marker(casaTresRCoords, { icon: casaTresRIcon }).addTo(map);
     const audioDonVictorMarker = L.marker(audioDonVictorCoords, { icon: audioMemoriaIcon }).addTo(map);
-    const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map); // AÑADIDO AL MAPA
+    const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map);
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -924,7 +924,7 @@
       hablarTexto("Entrevista a Don Víctor del mercado de las rosas. Escucha la memoria viva de nuestro barrio.", 1.0, 1.1);
     });
 
-    // Clic Mural del Ajolote (NUEVO EVENTO)
+    // Clic Mural del Ajolote
     muralAjoloteMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -932,7 +932,7 @@
       modalTitulo.textContent = '🎨 MURAL DEL AJOLOTE 🌿';
       burbujaPregon.style.display = 'none';
       textoDescripcion.innerHTML = 'Este mural 🎨 en el Sendero Seguro de la calle Papalot es un homenaje a la fuerza de las mujeres 👩🏻‍🤝‍👩🏼 de Santo Domingo y su papel central en la construcción del territorio 🧱. Al centro, la mirada firme de una joven vestida con bordados tradicionales 👚 representa el empoderamiento y la memoria histórica del barrio, mientras que el ajolote acunado en sus manos simboliza la resiliencia comunitaria y el cuidado del entorno natural 🌿. En la base, 🌳 el árbol de la vida y el paisaje ancestral entretejen la identidad colectiva con el legado de las generaciones pasadas ⏳. La obra transforma el espacio público en un refugio de convivencia y respeto, donde la seguridad de las mujeres se erige como el verdadero pilar de la comunidad. 🏋🏻‍♀️';
-      linkVideo.href = 'https://drive.google.com/file/d/1kZVpu94KmOli4KMqWBIkKsr4izFNDWKA/view?usp=sharing';
+      linkVideo.href = 'https://drive.google.com/file/d/1eAcDuFagQzWmL4E46XVX9yUET_qJh809/view?usp=sharing'; // NUEVO LINK DE VIDEO
       linkVideo.style.display = 'inline-block';
       destinoActual = muralAjoloteCoords;
       
