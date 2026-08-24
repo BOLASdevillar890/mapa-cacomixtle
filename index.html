@@ -1,5 +1,4 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -337,11 +336,14 @@
       color: #333;
     }
 
-    /* Reproductor de Audio Estilizado */
-    audio {
+    /* Reproductor incrustado de Audio Drive */
+    .iframe-audio-drive {
       width: 100%;
-      margin-top: 10px;
+      height: 60px;
+      border: none;
       border-radius: 8px;
+      margin-top: 10px;
+      background: #111;
     }
   </style>
 </head>
@@ -371,9 +373,9 @@
       <div id="burbujaPregon" class="burbuja-pregon"></div>
       <p id="textoDescripcion">Surgió a la par del vertiginoso crecimiento del Pedregal de Santo Domingo...</p>
       
-      <!-- Contenedor dinámico de Audio MP3 -->
-      <div id="contenedorAudioDrive" style="display: none; margin-bottom: 15px;">
-        <audio id="reproductorAudio" controls src=""></audio>
+      <!-- Contenedor dinámico del Reproductor de Audio Incrustado -->
+      <div id="contenedorAudioDrive" style="display: none; margin-bottom: 15px; width: 100%;">
+        <iframe id="iframeAudio" class="iframe-audio-drive" src="" allow="autoplay"></iframe>
       </div>
 
       <a id="linkVideo" href="" target="_blank">📺 Ver video del lugar</a>
@@ -571,8 +573,8 @@
     const urlLogoHechoEnSanto8 = 'https://i.ibb.co/VpTxKGKC/LOGO-FINAL.png';
     const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
 
-    // Enlace de descarga directa de Audio en Google Drive
-    const urlAudioDriveDirecto = "https://docs.google.com/uc?export=download&id=1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr";
+    // Enlace de reproductor incrustado de Google Drive para el Audio de la Memoria
+    const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
 
     // Marcadores Iconos
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -613,7 +615,7 @@
     const textoDescripcion = document.getElementById('textoDescripcion');
     const linkVideo = document.getElementById('linkVideo');
     const contenedorAudioDrive = document.getElementById('contenedorAudioDrive');
-    const reproductorAudio = document.getElementById('reproductorAudio');
+    const iframeAudio = document.getElementById('iframeAudio');
     const btnCerrar = document.getElementById('btnCerrar');
     const btnTrazarRuta = document.getElementById('btnTrazarRuta');
     const btnAbrirQuiz = document.getElementById('btnAbrirQuiz');
@@ -669,9 +671,8 @@
 
     function detenerAudiosYVoz() {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      if (reproductorAudio) {
-        reproductorAudio.pause();
-        reproductorAudio.currentTime = 0;
+      if (iframeAudio) {
+        iframeAudio.src = "";
       }
     }
 
@@ -712,6 +713,7 @@
     // Clic Mercado Las Rosas
     mercadoMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
       imgGrande.src = urlMercado;
       modalTitulo.textContent = 'Mercado Santo Domingo "LAS ROSAS"';
       burbujaPregon.innerHTML = '📢 🌽 🍎 🥑 🧔🏻‍♂️ 💖 <br><b>¡¡ PÁSELE, PÁSELE !! ¡¡ LLÉVELE, LLÉVELE !!<br>¡¡ FRUTAS Y VERDURAS FRESCAS DE HOY !!</b>';
@@ -729,6 +731,7 @@
     // Clic Mercado Copilco El Alto
     mercadoCopilcoMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
       imgGrande.src = urlMercadoCopilco;
       modalTitulo.textContent = 'Mercado No. 347 "Copilco El Alto"';
       burbujaPregon.style.display = 'none';
@@ -744,6 +747,7 @@
     // Clic Parque Tepocatl
     parqueTepocatlMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
       imgGrande.src = urlParqueTepocatl;
       modalTitulo.textContent = 'Parque Tepocatl';
       burbujaPregon.style.display = 'none';
@@ -760,6 +764,7 @@
     // Clic Parque Amézquite
     parqueAmezquiteMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
       imgGrande.src = urlParqueAmezquite;
       modalTitulo.textContent = 'Parque Amézquite';
       burbujaPregon.style.display = 'none';
@@ -776,6 +781,7 @@
     // Clic Colectivo "Sant8 también es cultura"
     santo8Marker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
       imgGrande.src = urlSanto8Modal;
       modalTitulo.textContent = 'Colectivo "Sant8 también es cultura"';
       burbujaPregon.style.display = 'none';
@@ -792,6 +798,7 @@
     // Clic Colectivo Hecho en Santoocho
     hechoEnSanto8Marker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
       imgGrande.src = urlImagenHechoEnSanto8;
       modalTitulo.textContent = '🎧 Colectivo Hecho en Santoocho 🎙️';
       burbujaPregon.style.display = 'none';
@@ -811,8 +818,8 @@
       burbujaPregon.style.display = 'none';
       textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha este relato de la memoria viva registrado justo en esta calle cerca del Parque Tepocatl. La voz de los vecinos que transformaron la roca en hogar."';
       
-      // Mostrar y configurar reproductor de audio
-      reproductorAudio.src = urlAudioDriveDirecto;
+      // Cargar reproductor incrustado de Drive
+      iframeAudio.src = urlAudioEmbedDrive;
       contenedorAudioDrive.style.display = 'block';
       
       linkVideo.style.display = 'none';
