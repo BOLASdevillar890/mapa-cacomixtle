@@ -66,7 +66,7 @@
       margin-top: 6px;
     }
 
-    /* Estilos para los marcadores generales */
+    /* Estilos para los marcadores generales (60x60px) */
     .leaflet-marker-icon.custom-icon {
       border-radius: 50%;
       border: 3px solid #ffffff;
@@ -77,7 +77,21 @@
       cursor: pointer;
     }
 
-    /* Ícono especial de Micrófono para Audios de la Memoria (36x36px) */
+    /* Ícono especial compacto (36x36px) para Ajolote y Micrófonos de Audio */
+    .leaflet-marker-icon.custom-icon-small {
+      border-radius: 50%;
+      border: 2px solid #FFD54F;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+      object-fit: cover;
+      background-color: #ffffff;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+    .leaflet-marker-icon.custom-icon-small:active {
+      transform: scale(0.9);
+    }
+
+    /* Ícono de Micrófono para Audios de la Memoria (36x36px) */
     .icon-audio-memoria {
       background: linear-gradient(135deg, #111111, #E91E63);
       border: 2px solid #FFD54F;
@@ -435,7 +449,8 @@
     const hechoEnSanto8Coords = [19.31810827825619, -99.1675235919918];
     const audioVecinaTepocatlCoords = [19.331153942618418, -99.16068534699359];
     const casaTresRCoords = [19.318350732729414, -99.16952214102503];
-    const audioDonVictorCoords = [19.33238888888889, -99.16208333333333]; // 19°19'56.6"N 99°09'43.5"W
+    const audioDonVictorCoords = [19.33238888888889, -99.16208333333333];
+    const muralAjoloteCoords = [19.329808466647112, -99.16285897904436]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -569,6 +584,16 @@
         ],
         mensajeExito: "¡Excelente! Escuchar el testimonio de Don Víctor rescata la memoria comercial y comunitaria del Mercado Las Rosas.",
         audioExito: "¡Excelente! El testimonio de Don Víctor preserva la memoria viva y la tradición del Mercado Las Rosas."
+      },
+      muralAjolote: {
+        pregunta: "🏆 🦊 🥳 ¿Qué simboliza el ajolote en el mural del Sendero Seguro de la calle Papalot?",
+        opciones: [
+          { texto: "a) La resiliencia comunitaria y el cuidado del entorno natural", correcta: true },
+          { texto: "b) Un personaje de caricatura sin relación con la comunidad", correcta: false },
+          { texto: "c) Un símbolo exclusivo de carreras deportivas", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! El ajolote representa la resiliencia comunitaria y la conservación de la naturaleza en nuestro Pedregal.",
+        audioExito: "¡Excelente! El ajolote simboliza la resiliencia y la fuerza del cuidado comunitario en Santo Domingo."
       }
     };
 
@@ -596,12 +621,13 @@
     const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
     const urlCasaTresR = 'https://i.ibb.co/LXP0ccBk/FACHADA-CASA-DE-LAS-3-R.jpg';
     const urlFotoDonVictor = 'https://i.ibb.co/XxqvW4tX/foto-animada.jpg';
+    const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg'; // IMAGEN NUEVA AGREGADA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
     const urlAudioDonVictorEmbed = "https://drive.google.com/file/d/12oMHO5Hv2nBR1PSKAksRLhe14gwieSnC/preview";
 
-    // Marcadores Iconos
+    // Marcadores Iconos Estándar (60x60px)
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const mercadoIcon = L.icon({ iconUrl: urlMercado, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const mercadoCopilcoIcon = L.icon({ iconUrl: urlMercadoCopilco, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -610,6 +636,9 @@
     const santo8Icon = L.icon({ iconUrl: urlLogoOficial, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const hechoEnSanto8Icon = L.icon({ iconUrl: urlLogoHechoEnSanto8, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const casaTresRIcon = L.icon({ iconUrl: urlCasaTresR, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
+
+    // Marcador de tamaño idéntico a los micrófonos (36x36px) para el Mural del Ajolote
+    const muralAjoloteIcon = L.icon({ iconUrl: urlAjoloteAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -634,6 +663,7 @@
     const audioVecinaMarker = L.marker(audioVecinaTepocatlCoords, { icon: audioMemoriaIcon }).addTo(map);
     const casaTresRMarker = L.marker(casaTresRCoords, { icon: casaTresRIcon }).addTo(map);
     const audioDonVictorMarker = L.marker(audioDonVictorCoords, { icon: audioMemoriaIcon }).addTo(map);
+    const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map); // AÑADIDO AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -892,6 +922,23 @@
       cargarQuiz(trivias.audioDonVictor);
       modal.style.display = 'flex';
       hablarTexto("Entrevista a Don Víctor del mercado de las rosas. Escucha la memoria viva de nuestro barrio.", 1.0, 1.1);
+    });
+
+    // Clic Mural del Ajolote (NUEVO EVENTO)
+    muralAjoloteMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlAjoloteAnimado;
+      modalTitulo.textContent = '🎨 MURAL DEL AJOLOTE 🌿';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural 🎨 en el Sendero Seguro de la calle Papalot es un homenaje a la fuerza de las mujeres 👩🏻‍🤝‍👩🏼 de Santo Domingo y su papel central en la construcción del territorio 🧱. Al centro, la mirada firme de una joven vestida con bordados tradicionales 👚 representa el empoderamiento y la memoria histórica del barrio, mientras que el ajolote acunado en sus manos simboliza la resiliencia comunitaria y el cuidado del entorno natural 🌿. En la base, 🌳 el árbol de la vida y el paisaje ancestral entretejen la identidad colectiva con el legado de las generaciones pasadas ⏳. La obra transforma el espacio público en un refugio de convivencia y respeto, donde la seguridad de las mujeres se erige como el verdadero pilar de la comunidad. 🏋🏻‍♀️';
+      linkVideo.href = 'https://drive.google.com/file/d/1kZVpu94KmOli4KMqWBIkKsr4izFNDWKA/view?usp=sharing';
+      linkVideo.style.display = 'inline-block';
+      destinoActual = muralAjoloteCoords;
+      
+      cargarQuiz(trivias.muralAjolote);
+      modal.style.display = 'flex';
+      hablarTexto("Mural del Ajolote en el Sendero Seguro de la calle Papalot. Un homenaje a la fuerza de las mujeres y a la resiliencia comunitaria.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
