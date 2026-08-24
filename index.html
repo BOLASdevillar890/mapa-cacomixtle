@@ -77,7 +77,7 @@
       cursor: pointer;
     }
 
-    /* Ícono especial de Micrófono para Audios de la Memoria (Más compacto) */
+    /* Ícono especial de Micrófono para Audios de la Memoria (36x36px) */
     .icon-audio-memoria {
       background: linear-gradient(135deg, #111111, #E91E63);
       border: 2px solid #FFD54F;
@@ -435,6 +435,7 @@
     const hechoEnSanto8Coords = [19.31810827825619, -99.1675235919918];
     const audioVecinaTepocatlCoords = [19.331153942618418, -99.16068534699359];
     const casaTresRCoords = [19.318350732729414, -99.16952214102503];
+    const audioDonVictorCoords = [19.33238888888889, -99.16208333333333]; // 19°19'56.6"N 99°09'43.5"W
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -558,6 +559,16 @@
         ],
         mensajeExito: "¡Excelente! La Casa de las 3R's busca Reconocer, Reducir y Redistribuir el trabajo de cuidados en la comunidad.",
         audioExito: "¡Excelente! La Casa de las tres erres busca reconocer, reducir y redistribuir el trabajo de cuidados de las mujeres."
+      },
+      audioDonVictor: {
+        pregunta: "🏆 🦊 🥳 ¿Qué nos relata Don Víctor sobre el Mercado de las Rosas?",
+        opciones: [
+          { texto: "a) La historia viva, anécdotas y memoria del mercado y el barrio", correcta: true },
+          { texto: "b) La receta secreta de un platillo famoso internacional", correcta: false },
+          { texto: "c) Las reglas de un torneo deportivo", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! Escuchar el testimonio de Don Víctor rescata la memoria comercial y comunitaria del Mercado Las Rosas.",
+        audioExito: "¡Excelente! El testimonio de Don Víctor preserva la memoria viva y la tradición del Mercado Las Rosas."
       }
     };
 
@@ -584,9 +595,11 @@
     const urlLogoHechoEnSanto8 = 'https://i.ibb.co/VpTxKGKC/LOGO-FINAL.png';
     const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
     const urlCasaTresR = 'https://i.ibb.co/LXP0ccBk/FACHADA-CASA-DE-LAS-3-R.jpg';
+    const urlFotoDonVictor = 'https://i.ibb.co/XxqvW4tX/foto-animada.jpg';
 
-    // Enlace de reproductor incrustado de Google Drive para el Audio de la Memoria
+    // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
+    const urlAudioDonVictorEmbed = "https://drive.google.com/file/d/12oMHO5Hv2nBR1PSKAksRLhe14gwieSnC/preview";
 
     // Marcadores Iconos
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -598,7 +611,7 @@
     const hechoEnSanto8Icon = L.icon({ iconUrl: urlLogoHechoEnSanto8, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const casaTresRIcon = L.icon({ iconUrl: urlCasaTresR, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
 
-    // Ícono DIV personalizado con emoji para el Audio de la Memoria (Más pequeño: 36x36px)
+    // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
       className: 'icon-audio-memoria',
       html: '🎙️',
@@ -620,6 +633,7 @@
     const hechoEnSanto8Marker = L.marker(hechoEnSanto8Coords, { icon: hechoEnSanto8Icon }).addTo(map);
     const audioVecinaMarker = L.marker(audioVecinaTepocatlCoords, { icon: audioMemoriaIcon }).addTo(map);
     const casaTresRMarker = L.marker(casaTresRCoords, { icon: casaTresRIcon }).addTo(map);
+    const audioDonVictorMarker = L.marker(audioDonVictorCoords, { icon: audioMemoriaIcon }).addTo(map);
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -825,7 +839,7 @@
       hablarTexto("Colectivo Hecho en Santoocho. Una iniciativa comunitaria independiente que promueve el orgullo del barrio, la recuperación del espacio público y la cultura popular.", 1.0, 1.1);
     });
 
-    // Clic Marcador Micrófono: Audios de la Memoria
+    // Clic Marcador Micrófono: Audios de la Memoria (Parque Tepocatl)
     audioVecinaMarker.on('click', function () {
       imgGrande.src = urlCacomixtle;
       modalTitulo.textContent = '🎙️ Audios de la Memoria: Relato Vecinal';
@@ -859,6 +873,25 @@
       cargarQuiz(trivias.casaTresR);
       modal.style.display = 'flex';
       hablarTexto("La Casa de las tres erres del cuidado Pioneras de la Transformación en Pedregal de Santo Domingo. Un espacio para reconocer, reducir y redistribuir el trabajo de cuidados.", 1.0, 1.1);
+    });
+
+    // Clic Marcador Micrófono: Entrevista a Don Víctor (Mercado de las Rosas)
+    audioDonVictorMarker.on('click', function () {
+      imgGrande.src = urlFotoDonVictor;
+      modalTitulo.textContent = '🎙️ Entrevista a Don Víctor del Mercado de las Rosas';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha esta importante entrevista con Don Víctor, locatario y testimonio vivo de la fundación y vida cotidiana en el Mercado Santo Domingo Las Rosas."';
+      
+      // Cargar reproductor incrustado de Drive para Don Víctor
+      iframeAudio.src = urlAudioDonVictorEmbed;
+      contenedorAudioDrive.style.display = 'block';
+      
+      linkVideo.style.display = 'none';
+      destinoActual = audioDonVictorCoords;
+      
+      cargarQuiz(trivias.audioDonVictor);
+      modal.style.display = 'flex';
+      hablarTexto("Entrevista a Don Víctor del mercado de las rosas. Escucha la memoria viva de nuestro barrio.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
