@@ -66,7 +66,7 @@
       margin-top: 6px;
     }
 
-    /* Estilos para los marcadores */
+    /* Estilos para los marcadores generales */
     .leaflet-marker-icon.custom-icon {
       border-radius: 50%;
       border: 3px solid #ffffff;
@@ -77,16 +77,16 @@
       cursor: pointer;
     }
 
-    /* Ícono especial de Micrófono para Audios de la Memoria */
+    /* Ícono especial de Micrófono para Audios de la Memoria (Más compacto) */
     .icon-audio-memoria {
       background: linear-gradient(135deg, #111111, #E91E63);
-      border: 3px solid #FFD54F;
+      border: 2px solid #FFD54F;
       border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(233, 30, 99, 0.6);
+      box-shadow: 0 3px 8px rgba(233, 30, 99, 0.5);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
+      font-size: 18px;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
@@ -434,6 +434,7 @@
     const santo8Coords = [19.329558139092832, -99.16802369199146];
     const hechoEnSanto8Coords = [19.31810827825619, -99.1675235919918];
     const audioVecinaTepocatlCoords = [19.331153942618418, -99.16068534699359];
+    const casaTresRCoords = [19.318350732729414, -99.16952214102503];
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -547,6 +548,16 @@
         ],
         mensajeExito: "¡Exacto! La historia oral transmitida por los vecinos rescata el esfuerzo comunitarios de los orígenes.",
         audioExito: "¡Exacto! Escuchar la voz de las y los vecinos fundadores mantiene viva la historia colectiva de nuestro Pedregal."
+      },
+      casaTresR: {
+        pregunta: "🏆 🦊 🥳 ¿Cuáles son los tres ejes principales de la Casa de las 3R's del Cuidado?",
+        opciones: [
+          { texto: "a) Reconocer, Reducir y Redistribuir el trabajo de cuidados", correcta: true },
+          { texto: "b) Reciclar, Reutilizar y Reducir basura", correcta: false },
+          { texto: "c) Reparar, Remodelar y Restaurar edificios", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! La Casa de las 3R's busca Reconocer, Reducir y Redistribuir el trabajo de cuidados en la comunidad.",
+        audioExito: "¡Excelente! La Casa de las tres erres busca reconocer, reducir y redistribuir el trabajo de cuidados de las mujeres."
       }
     };
 
@@ -572,6 +583,7 @@
     const urlCacomixtle = 'https://i.ibb.co/sJXgFkyV/CACOMIXTLE-PERSONAJE.png';
     const urlLogoHechoEnSanto8 = 'https://i.ibb.co/VpTxKGKC/LOGO-FINAL.png';
     const urlImagenHechoEnSanto8 = 'https://i.ibb.co/V0GJJ9hF/imagen-para-ventana-flotante-2.png';
+    const urlCasaTresR = 'https://i.ibb.co/LXP0ccBk/FACHADA-CASA-DE-LAS-3-R.jpg';
 
     // Enlace de reproductor incrustado de Google Drive para el Audio de la Memoria
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -584,14 +596,15 @@
     const parqueAmezquiteIcon = L.icon({ iconUrl: urlParqueAmezquite, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const santo8Icon = L.icon({ iconUrl: urlLogoOficial, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const hechoEnSanto8Icon = L.icon({ iconUrl: urlLogoHechoEnSanto8, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
+    const casaTresRIcon = L.icon({ iconUrl: urlCasaTresR, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
 
-    // Ícono DIV personalizado con emoji para el Audio de la Memoria
+    // Ícono DIV personalizado con emoji para el Audio de la Memoria (Más pequeño: 36x36px)
     const audioMemoriaIcon = L.divIcon({
       className: 'icon-audio-memoria',
       html: '🎙️',
-      iconSize: [50, 50],
-      iconAnchor: [25, 25],
-      popupAnchor: [0, -25]
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+      popupAnchor: [0, -18]
     });
 
     // Capas
@@ -606,6 +619,7 @@
     const santo8Marker = L.marker(santo8Coords, { icon: santo8Icon }).addTo(map);
     const hechoEnSanto8Marker = L.marker(hechoEnSanto8Coords, { icon: hechoEnSanto8Icon }).addTo(map);
     const audioVecinaMarker = L.marker(audioVecinaTepocatlCoords, { icon: audioMemoriaIcon }).addTo(map);
+    const casaTresRMarker = L.marker(casaTresRCoords, { icon: casaTresRIcon }).addTo(map);
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -828,6 +842,23 @@
       cargarQuiz(trivias.audioMemoria);
       modal.style.display = 'flex';
       hablarTexto("Escucha este relato de la memoria viva registrado justo en esta calle.", 1.0, 1.1);
+    });
+
+    // Clic La Casa de las 3R's
+    casaTresRMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlCasaTresR;
+      modalTitulo.textContent = "🏠 LA CASA DE LAS 3R´S DE CUÍDAME";
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'La misión de la Casa de las 3R’s del Cuidado “Pioneras de la Transformación” 👩🏻‍🤝‍👩🏼 en Pedregal de Santo Domingo, Coyoacán, es Reconocer 🏅, Reducir ✂️⬇️ y Redistribuir 🤲📊 el trabajo de cuidados que históricamente ha recaído de manera injusta en las mujeres 👩🏻‍🤝‍👩🏼.<br><br>• <b>🏅 Reconocer:</b> Valorar el esfuerzo y la importancia del trabajo 💼 de cuidados para la sociedad.<br>• <b>⬇️ Reducir:</b> Disminuir la carga de trabajo físico y el tiempo ⏰ dedicado a las labores domésticas 🧹 y de cuidados mediante servicios comunitarios gratuitos.<br>• <b>🔄 Redistribuir:</b> Convertir el cuidado en una responsabilidad colectiva entre el Estado, la sociedad y las familias, aliviando el aislamiento de quienes cuidan 👨‍👩‍👧‍👦💜🎗️👩🏻.';
+      linkVideo.href = 'https://drive.google.com/file/d/1ixpCPaoY8Av_4vNbLLHvnNlvvUIwgDL_/view?usp=sharing';
+      linkVideo.style.display = 'inline-block';
+      destinoActual = casaTresRCoords;
+      
+      cargarQuiz(trivias.casaTresR);
+      modal.style.display = 'flex';
+      hablarTexto("La Casa de las tres erres del cuidado Pioneras de la Transformación en Pedregal de Santo Domingo. Un espacio para reconocer, reducir y redistribuir el trabajo de cuidados.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
