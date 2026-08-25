@@ -432,11 +432,13 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    // --- TEMPORIZADOR DE PANTALLA DE CARGA (3 SEGUNDOS) ---
+    // --- TEMPORIZADOR DE PANTALLA DE CARGA Y AUDIO AUTOMÁTICO DE BIENVENIDA ---
     window.addEventListener('load', function() {
       setTimeout(function() {
         const loader = document.getElementById('loaderScreen');
         loader.classList.add('hidden');
+        // RECOMENDACIÓN EN AUDIO AL ABRIR EL MAPA
+        hablarTexto("Te recomiendo abrir bien el mapa para que puedas ver bien la ruta cultural", 1.0, 1.05);
       }, 3000);
     });
 
@@ -457,7 +459,8 @@
     const muralSemillasMananaCoords = [19.327621100205487, -99.16346747457261];
     const muralVueloFlorecerCoords = [19.32456621562267, -99.1649338919916];
     const muralSenderosTierraVidaCoords = [19.318229775382136, -99.16744849014222];
-    const muralCampesinosCoords = [19.319492976882582, -99.16853226315607]; // NUEVO PUNTO
+    const muralCampesinosCoords = [19.319492976882582, -99.16853226315607];
+    const audioHechoEnSanto8Coords = [19.318338041262393, -99.16741595530935]; // NUEVO PUNTO DE AUDIO DE ENTREVISTA
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -671,6 +674,16 @@
         ],
         mensajeExito: "¡Excelente! Este mural homenajea el origen, la unión vecinal y el esfuerzo colectivo que dio vida a Santo Domingo.",
         audioExito: "¡Excelente! Raíces del Pedregal nos recuerda el esfuerzo comunitario con el que las familias fundaron nuestro barrio."
+      },
+      audioHechoEnSanto8: {
+        pregunta: "🏆 🦊 🥳 ¿Qué aportan Rodrigo y Tamara en esta entrevista sobre el trabajo del colectivo?",
+        opciones: [
+          { texto: "a) Testimonios e historia viva del trabajo independiente de Hecho en Santoocho por el barrio", correcta: true },
+          { texto: "b) Una clase interactiva de ciencias naturales", correcta: false },
+          { texto: "c) Informes meteorológicos de la Ciudad de México", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! Escuchar la entrevista a Rodrigo y Tamara rescata el compromiso cultural del colectivo Hecho en Santoocho.",
+        audioExito: "¡Excelente! La voz de Rodrigo y Tamara visibiliza la lucha cultural y la identidad de Santoocho."
       }
     };
 
@@ -705,11 +718,13 @@
     const urlNinaSantoDomingo = 'https://i.ibb.co/VR3ZNhX/NI-A-DE-SANTO-DOMINGO.jpg';
     const urlColibrisAnimado = 'https://i.ibb.co/Lh2W928C/mural-colibis-animado.jpg';
     const urlMuralPlantasAnimado = 'https://i.ibb.co/C5hNkPcZ/mural-de-plantas-animado.jpg';
-    const urlMuralCampesinos = 'https://i.ibb.co/HTmjc7X9/mural-de-campesinos.jpg'; // NUEVA IMAGEN AGREGADA
+    const urlMuralCampesinos = 'https://i.ibb.co/HTmjc7X9/mural-de-campesinos.jpg';
+    const urlImagenRodrigoTamara = 'https://i.ibb.co/qFBmJpfd/imagen-de-hecho-en-santoocho.jpg'; // NUEVA IMAGEN ENTREVISTA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
     const urlAudioDonVictorEmbed = "https://drive.google.com/file/d/12oMHO5Hv2nBR1PSKAksRLhe14gwieSnC/preview";
+    const urlAudioHechoEnSanto8Embed = "https://drive.google.com/file/d/19Hdf0DL1FOfLkIc1SCS9y2FUHOAkDdvY/preview"; // NUEVO ENLACE DRIVE INCURSTADO
 
     // Marcadores Iconos Estándar (60x60px)
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -729,9 +744,9 @@
     const muralSemillasMananaIcon = L.icon({ iconUrl: urlNinaSantoDomingo, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralVueloFlorecerIcon = L.icon({ iconUrl: urlColibrisAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralSenderosTierraVidaIcon = L.icon({ iconUrl: urlMuralPlantasAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
-    const muralCampesinosIcon = L.icon({ iconUrl: urlMuralCampesinos, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO CAMPESINOS
+    const muralCampesinosIcon = L.icon({ iconUrl: urlMuralCampesinos, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
 
-    // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
+    // Ícono DIV personalizado con emoji para los Audios de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
       className: 'icon-audio-memoria',
       html: '🎙️',
@@ -761,7 +776,8 @@
     const muralSemillasMananaMarker = L.marker(muralSemillasMananaCoords, { icon: muralSemillasMananaIcon }).addTo(map);
     const muralVueloFlorecerMarker = L.marker(muralVueloFlorecerCoords, { icon: muralVueloFlorecerIcon }).addTo(map);
     const muralSenderosTierraVidaMarker = L.marker(muralSenderosTierraVidaCoords, { icon: muralSenderosTierraVidaIcon }).addTo(map);
-    const muralCampesinosMarker = L.marker(muralCampesinosCoords, { icon: muralCampesinosIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const muralCampesinosMarker = L.marker(muralCampesinosCoords, { icon: muralCampesinosIcon }).addTo(map);
+    const audioHechoEnSanto8Marker = L.marker(audioHechoEnSanto8Coords, { icon: audioMemoriaIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -1139,7 +1155,7 @@
       hablarTexto("Mural Senderos de Tierra y Vida: La Naturaleza que Nos Acompaña. Una obra que aporta luz, calma y sensación de amplitud al caminar por el Sendero Seguro.", 1.0, 1.1);
     });
 
-    // Clic Mural Raíces del Pedregal (NUEVO EVENTO)
+    // Clic Mural Raíces del Pedregal
     muralCampesinosMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -1153,6 +1169,25 @@
       cargarQuiz(trivias.muralCampesinos);
       modal.style.display = 'flex';
       hablarTexto("Mural Raíces del Pedregal: Así Nació Nuestro Barrio. Un tributo a las familias pioneras que fundaron Santo Domingo con esfuerzo colectivo.", 1.0, 1.1);
+    });
+
+    // Clic Marcador Micrófono: Entrevista Rodrigo y Tamara (NUEVO EVENTO)
+    audioHechoEnSanto8Marker.on('click', function () {
+      imgGrande.src = urlImagenRodrigoTamara;
+      modalTitulo.textContent = '🎙️ Entrevista con Colectivo Hecho en Santoocho "Rodrigo y Tamara"';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha esta gran entrevista con Rodrigo y Tamara del Colectivo Hecho en Santoocho 🎙️. Relatos, proyectos y testimonios sobre la cultura del barrio, el arte urbano y la memoria viva del Pedregal."';
+      
+      // Cargar reproductor incrustado de Drive para Rodrigo y Tamara
+      iframeAudio.src = urlAudioHechoEnSanto8Embed;
+      contenedorAudioDrive.style.display = 'block';
+      
+      linkVideo.style.display = 'none';
+      destinoActual = audioHechoEnSanto8Coords;
+      
+      cargarQuiz(trivias.audioHechoEnSanto8);
+      modal.style.display = 'flex';
+      hablarTexto("Entrevista con colectivo Hecho en Santoocho: Rodrigo y Tamara. Escucha los testimonios del arte urbano y la memoria viva del Pedregal.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
