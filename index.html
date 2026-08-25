@@ -44,8 +44,8 @@
     }
 
     .coyote-animado {
-      width: 220px;
-      height: 220px;
+      width: 200px;
+      height: 200px;
       object-fit: contain;
       animation: aullido 2.2s ease-in-out infinite;
       filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
@@ -55,7 +55,7 @@
       color: #FFD54F;
       font-size: 16px;
       font-weight: bold;
-      margin-top: 20px;
+      margin-top: 15px;
       letter-spacing: 1px;
       text-align: center;
     }
@@ -64,6 +64,24 @@
       color: #B0BEC5;
       font-size: 12px;
       margin-top: 6px;
+    }
+
+    /* Botón de Entrada para activar el audio */
+    .btn-iniciar-ruta {
+      margin-top: 25px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #E91E63, #FF9800);
+      color: white;
+      border: 2px solid #FFD54F;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(233, 30, 99, 0.5);
+      transition: transform 0.2s;
+    }
+    .btn-iniciar-ruta:active {
+      transform: scale(0.95);
     }
 
     /* Estilos para los marcadores generales (60x60px) */
@@ -363,11 +381,12 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE CARGA -->
+  <!-- PANTALLA DE CARGA CON BOTÓN DE ENTRADA -->
   <div id="loaderScreen">
     <img id="imgCoyoteLoader" class="coyote-animado" src="https://i.ibb.co/391YFXSh/coyote-logo.png" alt="Promotores Culturales Coyoacán" />
-    <div class="texto-loader">Cargando Ruta Cultural...</div>
-    <div class="subtexto-loader">Pedregal de Santo Domingo</div>
+    <div class="texto-loader">Ruta Cultural Pedregal de Santo Domingo</div>
+    <div class="subtexto-loader">Coyoacán, Ciudad de México</div>
+    <button id="btnIniciarRuta" class="btn-iniciar-ruta">🚀 Entrar a la Ruta Cultural</button>
   </div>
 
   <div id="map"></div>
@@ -432,15 +451,26 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    // --- TEMPORIZADOR DE PANTALLA DE CARGA Y AUDIO AUTOMÁTICO DE BIENVENIDA ---
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        const loader = document.getElementById('loaderScreen');
-        loader.classList.add('hidden');
-        // RECOMENDACIÓN EN AUDIO AL ABRIR EL MAPA
-        hablarTexto("Te recomiendo abrir bien el mapa para que puedas ver bien la ruta cultural", 1.0, 1.05);
-      }, 3000);
-    });
+    // --- FUNCIÓN DE VOZ ---
+    function hablarTexto(texto, velocidad = 1.0, tono = 1.0) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const locucion = new SpeechSynthesisUtterance(texto);
+        locucion.lang = 'es-MX';
+        locucion.rate = velocidad;
+        locucion.pitch = tono;
+        window.speechSynthesis.speak(locucion);
+      }
+    }
+
+    // --- ACCIÓN DEL BOTÓN DE ENTRADA Y AUDIO AUTOMÁTICO ---
+    document.getElementById('btnIniciarRuta').onclick = function() {
+      const loader = document.getElementById('loaderScreen');
+      loader.classList.add('hidden');
+      
+      // AL TOCAR EL BOTÓN SE REPRODUCE EL AUDIO GARANTIZADO EN TODOS LOS NAVEGADORES Y MOVILES
+      hablarTexto("recueda abrir bien tu mapa para que puedas ver la ruta cultural del pedregal de santo domingo", 0.95, 1.05);
+    };
 
     // 1. Coordenadas de los Puntos de Interés
     const mercadoCoords = [19.331328473315608, -99.16249745266929];
@@ -460,7 +490,7 @@
     const muralVueloFlorecerCoords = [19.32456621562267, -99.1649338919916];
     const muralSenderosTierraVidaCoords = [19.318229775382136, -99.16744849014222];
     const muralCampesinosCoords = [19.319492976882582, -99.16853226315607];
-    const audioHechoEnSanto8Coords = [19.318338041262393, -99.16741595530935]; // NUEVO PUNTO DE AUDIO DE ENTREVISTA
+    const audioHechoEnSanto8Coords = [19.318338041262393, -99.16741595530935];
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -719,12 +749,12 @@
     const urlColibrisAnimado = 'https://i.ibb.co/Lh2W928C/mural-colibis-animado.jpg';
     const urlMuralPlantasAnimado = 'https://i.ibb.co/C5hNkPcZ/mural-de-plantas-animado.jpg';
     const urlMuralCampesinos = 'https://i.ibb.co/HTmjc7X9/mural-de-campesinos.jpg';
-    const urlImagenRodrigoTamara = 'https://i.ibb.co/qFBmJpfd/imagen-de-hecho-en-santoocho.jpg'; // NUEVA IMAGEN ENTREVISTA
+    const urlImagenRodrigoTamara = 'https://i.ibb.co/qFBmJpfd/imagen-de-hecho-en-santoocho.jpg';
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
     const urlAudioDonVictorEmbed = "https://drive.google.com/file/d/12oMHO5Hv2nBR1PSKAksRLhe14gwieSnC/preview";
-    const urlAudioHechoEnSanto8Embed = "https://drive.google.com/file/d/19Hdf0DL1FOfLkIc1SCS9y2FUHOAkDdvY/preview"; // NUEVO ENLACE DRIVE INCURSTADO
+    const urlAudioHechoEnSanto8Embed = "https://drive.google.com/file/d/19Hdf0DL1FOfLkIc1SCS9y2FUHOAkDdvY/preview";
 
     // Marcadores Iconos Estándar (60x60px)
     const cacomixtleIcon = L.icon({ iconUrl: urlCacomixtle, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
@@ -777,7 +807,7 @@
     const muralVueloFlorecerMarker = L.marker(muralVueloFlorecerCoords, { icon: muralVueloFlorecerIcon }).addTo(map);
     const muralSenderosTierraVidaMarker = L.marker(muralSenderosTierraVidaCoords, { icon: muralSenderosTierraVidaIcon }).addTo(map);
     const muralCampesinosMarker = L.marker(muralCampesinosCoords, { icon: muralCampesinosIcon }).addTo(map);
-    const audioHechoEnSanto8Marker = L.marker(audioHechoEnSanto8Coords, { icon: audioMemoriaIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const audioHechoEnSanto8Marker = L.marker(audioHechoEnSanto8Coords, { icon: audioMemoriaIcon }).addTo(map);
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -805,18 +835,6 @@
     const carruselIndicador = document.getElementById('carruselIndicador');
     const btnCarruselPrev = document.getElementById('btnCarruselPrev');
     const btnCarruselNext = document.getElementById('btnCarruselNext');
-
-    // Función de Voz
-    function hablarTexto(texto, velocidad = 1.0, tono = 1.0) {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const locucion = new SpeechSynthesisUtterance(texto);
-        locucion.lang = 'es-MX';
-        locucion.rate = velocidad;
-        locucion.pitch = tono;
-        window.speechSynthesis.speak(locucion);
-      }
-    }
 
     // Funciones del Carrusel de Fotos
     function mostrarFotoCarrusel(index) {
@@ -990,7 +1008,6 @@
       burbujaPregon.style.display = 'none';
       textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha este relato de la memoria viva registrado justo en esta calle cerca del Parque Tepocatl. La voz de los vecinos que transformaron la roca en hogar."';
       
-      // Cargar reproductor incrustado de Drive
       iframeAudio.src = urlAudioEmbedDrive;
       contenedorAudioDrive.style.display = 'block';
       
@@ -1026,7 +1043,6 @@
       burbujaPregon.style.display = 'none';
       textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha esta importante entrevista con Don Víctor, locatario y testimonio vivo de la fundación y vida cotidiana en el Mercado Santo Domingo Las Rosas."';
       
-      // Cargar reproductor incrustado de Drive para Don Víctor
       iframeAudio.src = urlAudioDonVictorEmbed;
       contenedorAudioDrive.style.display = 'block';
       
@@ -1171,14 +1187,13 @@
       hablarTexto("Mural Raíces del Pedregal: Así Nació Nuestro Barrio. Un tributo a las familias pioneras que fundaron Santo Domingo con esfuerzo colectivo.", 1.0, 1.1);
     });
 
-    // Clic Marcador Micrófono: Entrevista Rodrigo y Tamara (NUEVO EVENTO)
+    // Clic Marcador Micrófono: Entrevista Rodrigo y Tamara
     audioHechoEnSanto8Marker.on('click', function () {
       imgGrande.src = urlImagenRodrigoTamara;
       modalTitulo.textContent = '🎙️ Entrevista con Colectivo Hecho en Santoocho "Rodrigo y Tamara"';
       burbujaPregon.style.display = 'none';
       textoDescripcion.innerHTML = '<b>🐾 Cacomixtle Guía dice:</b><br>"Escucha esta gran entrevista con Rodrigo y Tamara del Colectivo Hecho en Santoocho 🎙️. Relatos, proyectos y testimonios sobre la cultura del barrio, el arte urbano y la memoria viva del Pedregal."';
       
-      // Cargar reproductor incrustado de Drive para Rodrigo y Tamara
       iframeAudio.src = urlAudioHechoEnSanto8Embed;
       contenedorAudioDrive.style.display = 'block';
       
