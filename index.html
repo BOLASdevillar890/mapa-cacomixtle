@@ -453,7 +453,8 @@
     const muralAjoloteCoords = [19.329808466647112, -99.16285897904436];
     const muralMujerTrabajandoCoords = [19.32629242313433, -99.16419192883566];
     const muralVolcanXitleCoords = [19.32856159626359, -99.16315367116435];
-    const muralMiradasFuturoCoords = [19.328910919969864, -99.1629742]; // NUEVO PUNTO
+    const muralMiradasFuturoCoords = [19.328910919969864, -99.1629742];
+    const muralSemillasMananaCoords = [19.327621100205487, -99.16346747457261]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -627,6 +628,16 @@
         ],
         mensajeExito: "¡Excelente! Representa la autonomía femenina, la libertad y el derecho a caminar sin temor por el Sendero Seguro.",
         audioExito: "¡Excelente! Miradas del futuro simboliza la dignidad, la libertad y el derecho a espacios públicos seguros."
+      },
+      muralSemillasManana: {
+        pregunta: "🏆 🦊 🥳 ¿Qué mensaje transmite el mural 'Semillas del Mañana' sobre la infancia?",
+        opciones: [
+          { texto: "a) El derecho de las infancias a caminar libres y la protección colectiva de la niñez", correcta: true },
+          { texto: "b) Una campaña de venta de productos escolares", correcta: false },
+          { texto: "c) Una exposición sobre juegos mecánicos", correcta: false }
+        ],
+        mensajeExito: "¡Correcto! Visibiliza el derecho de las niñas y niños a crecer y transitar en un entorno seguro y protegido.",
+        audioExito: "¡Correcto! Semillas del mañana nos recuerda el cuidado colectivo y el derecho de la niñez a calles libres y seguras."
       }
     };
 
@@ -657,7 +668,8 @@
     const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg';
     const urlMujerTrabajando = 'https://i.ibb.co/SXFDQK7j/mujer-lavando-2.jpg';
     const urlVolcanAnimado = 'https://i.ibb.co/zhcZxFSd/VOLVAN-ANIMADO.jpg';
-    const urlMujerHorizonte = 'https://i.ibb.co/PzCk6fnD/mujer-viendo-al-horizonte.jpg'; // NUEVA IMAGEN AGREGADA
+    const urlMujerHorizonte = 'https://i.ibb.co/PzCk6fnD/mujer-viendo-al-horizonte.jpg';
+    const urlNinaSantoDomingo = 'https://i.ibb.co/VR3ZNhX/NI-A-DE-SANTO-DOMINGO.jpg'; // NUEVA IMAGEN AGREGADA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -677,7 +689,8 @@
     const muralAjoloteIcon = L.icon({ iconUrl: urlAjoloteAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralMujerTrabajandoIcon = L.icon({ iconUrl: urlMujerTrabajando, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralVolcanXitleIcon = L.icon({ iconUrl: urlVolcanAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
-    const muralMiradasFuturoIcon = L.icon({ iconUrl: urlMujerHorizonte, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO
+    const muralMiradasFuturoIcon = L.icon({ iconUrl: urlMujerHorizonte, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
+    const muralSemillasMananaIcon = L.icon({ iconUrl: urlNinaSantoDomingo, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO NIÑA
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -705,7 +718,8 @@
     const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map);
     const muralMujerTrabajandoMarker = L.marker(muralMujerTrabajandoCoords, { icon: muralMujerTrabajandoIcon }).addTo(map);
     const muralVolcanXitleMarker = L.marker(muralVolcanXitleCoords, { icon: muralVolcanXitleIcon }).addTo(map);
-    const muralMiradasFuturoMarker = L.marker(muralMiradasFuturoCoords, { icon: muralMiradasFuturoIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const muralMiradasFuturoMarker = L.marker(muralMiradasFuturoCoords, { icon: muralMiradasFuturoIcon }).addTo(map);
+    const muralSemillasMananaMarker = L.marker(muralSemillasMananaCoords, { icon: muralSemillasMananaIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -835,7 +849,7 @@
       imgGrande.src = urlMercadoCopilco;
       modalTitulo.textContent = 'Mercado No. 347 "Copilco El Alto"';
       burbujaPregon.style.display = 'none';
-      textoDescripcion.textContent = 'Nacido de la histórica lucha comunitaria que transformó la roca volcánica en hogar, el Mercado Copilco El Alto es memoria viva del Pedregal de Santo Domingo. Más que un centro de abasto, es un pilar de identidad y tradición donde el esfuerzo colectivo de sus fundadores sigue resonando en cada pasillo. Entre el andar diario de los vecinos, la calidez de sus comerciantes y el sazón de su gente, el mercado resguarda la esencia solidaria de un barrio que se construyó con las hands de su propia comunidad.';
+      textoDescripcion.textContent = 'Nacido de la histórica lucha comunitaria que transformó la roca volcánica en hogar, el Mercado Copilco El Alto es memoria viva del Pedregal de Santo Domingo. Más que un centro de abasto, es un pilar de identidad y tradición donde el esfuerzo colectivo de sus fundadores sigue resonando en cada pasillo. Entre el andar diario de los vecinos, la calidez de sus comerciantes y el sazón de su gente, el mercado resguarda la esencia solidaria de un barrio que se construyó con las manos de su propia comunidad.';
       linkVideo.href = 'https://drive.google.com/file/d/1MRsbJUCbXXKFMwJo88o_Pw89Ybjf3BWO/view?usp=sharing';
       linkVideo.style.display = 'inline-block';
       destinoActual = mercadoCopilcoCoords;
@@ -1017,7 +1031,7 @@
       hablarTexto("Mural El Origen de Nuestra Piedra: Xitle y Territorio. Un tributo al origen geológico de la roca volcánica del Pedregal.", 1.0, 1.1);
     });
 
-    // Clic Mural Miradas del Futuro (NUEVO EVENTO)
+    // Clic Mural Miradas del Futuro
     muralMiradasFuturoMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -1032,6 +1046,23 @@
       cargarQuiz(trivias.muralMiradasFuturo);
       modal.style.display = 'flex';
       hablarTexto("Mural Miradas del Futuro: Memoria y Esperanza al Atardecer. Una obra que representa la autonomía, dignidad y libertad de habitar nuestras calles en paz.", 1.0, 1.1);
+    });
+
+    // Clic Mural Semillas del Mañana (NUEVO EVENTO)
+    muralSemillasMananaMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlNinaSantoDomingo;
+      modalTitulo.textContent = '🌱 Semillas del Mañana: La Infancia de Santo Domingo 👧🏻👦🏻';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural 🎨 coloca la mirada profunda de una niña 👧🏻 al centro del Sendero Seguro, visibilizando el derecho de las infancias a caminar libres. Enmarcada por capas horizontales que evocan la topografía del Pedregal y vegetación 🌿 en brote, la obra conecta el futuro generacional con la memoria del territorio. 🏠 Su formato panorámico convierte la fachada en un guardián visual que llama al cuidado colectivo y la protección de las mujeres desde su niñez. 👧🏻💖😊✨';
+      linkVideo.href = 'https://drive.google.com/file/d/1EDaPSkSwbho23PLOSfCYl0vTc1JGE_-z/view?usp=sharing';
+      linkVideo.style.display = 'inline-block';
+      destinoActual = muralSemillasMananaCoords;
+      
+      cargarQuiz(trivias.muralSemillasManana);
+      modal.style.display = 'flex';
+      hablarTexto("Mural Semillas del Mañana: La Infancia de Santo Domingo. Una obra que resalta el derecho de las infancias a habitar calles libres y seguras.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
