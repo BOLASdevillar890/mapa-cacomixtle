@@ -454,7 +454,8 @@
     const muralMujerTrabajandoCoords = [19.32629242313433, -99.16419192883566];
     const muralVolcanXitleCoords = [19.32856159626359, -99.16315367116435];
     const muralMiradasFuturoCoords = [19.328910919969864, -99.1629742];
-    const muralSemillasMananaCoords = [19.327621100205487, -99.16346747457261]; // NUEVO PUNTO
+    const muralSemillasMananaCoords = [19.327621100205487, -99.16346747457261];
+    const muralVueloFlorecerCoords = [19.32456621562267, -99.1649338919916]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -638,6 +639,16 @@
         ],
         mensajeExito: "¡Correcto! Visibiliza el derecho de las niñas y niños a crecer y transitar en un entorno seguro y protegido.",
         audioExito: "¡Correcto! Semillas del mañana nos recuerda el cuidado colectivo y el derecho de la niñez a calles libres y seguras."
+      },
+      muralVueloFlorecer: {
+        pregunta: "🏆 🦊 🥳 ¿Qué simboliza el vuelo libre de las aves en este mural?",
+        opciones: [
+          { texto: "a) El derecho de las mujeres a habitar y transitar el territorio con total autonomía y libertad", correcta: true },
+          { texto: "b) Un aviso de parque ornitológico comercial", correcta: false },
+          { texto: "c) Una guía turística para observadores de aves extranjeros", correcta: false }
+        ],
+        mensajeExito: "¡Correcto! El vuelo libre de colibríes y aves representa la soberanía, la libertad y el libre tránsito sin temor.",
+        audioExito: "¡Correcto! Vuelo y florecer representa la libertad, la autonomía y el derecho de las mujeres a transitar seguras por el barrio."
       }
     };
 
@@ -669,7 +680,8 @@
     const urlMujerTrabajando = 'https://i.ibb.co/SXFDQK7j/mujer-lavando-2.jpg';
     const urlVolcanAnimado = 'https://i.ibb.co/zhcZxFSd/VOLVAN-ANIMADO.jpg';
     const urlMujerHorizonte = 'https://i.ibb.co/PzCk6fnD/mujer-viendo-al-horizonte.jpg';
-    const urlNinaSantoDomingo = 'https://i.ibb.co/VR3ZNhX/NI-A-DE-SANTO-DOMINGO.jpg'; // NUEVA IMAGEN AGREGADA
+    const urlNinaSantoDomingo = 'https://i.ibb.co/VR3ZNhX/NI-A-DE-SANTO-DOMINGO.jpg';
+    const urlColibrisAnimado = 'https://i.ibb.co/Lh2W928C/mural-colibis-animado.jpg'; // NUEVA IMAGEN AGREGADA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -690,7 +702,8 @@
     const muralMujerTrabajandoIcon = L.icon({ iconUrl: urlMujerTrabajando, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralVolcanXitleIcon = L.icon({ iconUrl: urlVolcanAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralMiradasFuturoIcon = L.icon({ iconUrl: urlMujerHorizonte, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
-    const muralSemillasMananaIcon = L.icon({ iconUrl: urlNinaSantoDomingo, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO NIÑA
+    const muralSemillasMananaIcon = L.icon({ iconUrl: urlNinaSantoDomingo, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
+    const muralVueloFlorecerIcon = L.icon({ iconUrl: urlColibrisAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO COLIBRÍES
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -719,7 +732,8 @@
     const muralMujerTrabajandoMarker = L.marker(muralMujerTrabajandoCoords, { icon: muralMujerTrabajandoIcon }).addTo(map);
     const muralVolcanXitleMarker = L.marker(muralVolcanXitleCoords, { icon: muralVolcanXitleIcon }).addTo(map);
     const muralMiradasFuturoMarker = L.marker(muralMiradasFuturoCoords, { icon: muralMiradasFuturoIcon }).addTo(map);
-    const muralSemillasMananaMarker = L.marker(muralSemillasMananaCoords, { icon: muralSemillasMananaIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const muralSemillasMananaMarker = L.marker(muralSemillasMananaCoords, { icon: muralSemillasMananaIcon }).addTo(map);
+    const muralVueloFlorecerMarker = L.marker(muralVueloFlorecerCoords, { icon: muralVueloFlorecerIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -1048,7 +1062,7 @@
       hablarTexto("Mural Miradas del Futuro: Memoria y Esperanza al Atardecer. Una obra que representa la autonomía, dignidad y libertad de habitar nuestras calles en paz.", 1.0, 1.1);
     });
 
-    // Clic Mural Semillas del Mañana (NUEVO EVENTO)
+    // Clic Mural Semillas del Mañana
     muralSemillasMananaMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -1063,6 +1077,22 @@
       cargarQuiz(trivias.muralSemillasManana);
       modal.style.display = 'flex';
       hablarTexto("Mural Semillas del Mañana: La Infancia de Santo Domingo. Una obra que resalta el derecho de las infancias a habitar calles libres y seguras.", 1.0, 1.1);
+    });
+
+    // Clic Mural Vuelo y Florecer (NUEVO EVENTO)
+    muralVueloFlorecerMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlColibrisAnimado;
+      modalTitulo.textContent = '🐦 Vuelo y Florecer: Aves de Santo Domingo 🌺';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural 🎨 plasma colibríes 🐦, aves en vuelo 🕊️ y nopales en flor 🌵🌸 sobre un fondo de cerros violetas ⛰️🌄, llenando de vida y color 🎨 la calle Papalot dentro del Sendero Seguro. El vuelo libre de las aves 🐦‍⬛ representa el derecho de las mujeres 👩🏻‍🤝‍👩🏼 a habitar 🏠 y transitar el territorio 🚶🏻‍♀️ con total autonomía, libertad y tranquilidad. 🕊️✨💖';
+      linkVideo.style.display = 'none'; // Sin link de vídeo especificado
+      destinoActual = muralVueloFlorecerCoords;
+      
+      cargarQuiz(trivias.muralVueloFlorecer);
+      modal.style.display = 'flex';
+      hablarTexto("Mural Vuelo y Florecer: Aves de Santo Domingo. El vuelo libre de colibríes representa el derecho de las mujeres a transitar el territorio con total autonomía y tranquilidad.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
