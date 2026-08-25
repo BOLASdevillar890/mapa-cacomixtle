@@ -456,7 +456,8 @@
     const muralMiradasFuturoCoords = [19.328910919969864, -99.1629742];
     const muralSemillasMananaCoords = [19.327621100205487, -99.16346747457261];
     const muralVueloFlorecerCoords = [19.32456621562267, -99.1649338919916];
-    const muralSenderosTierraVidaCoords = [19.318229775382136, -99.16744849014222]; // NUEVO PUNTO
+    const muralSenderosTierraVidaCoords = [19.318229775382136, -99.16744849014222];
+    const muralCampesinosCoords = [19.319492976882582, -99.16853226315607]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -660,6 +661,16 @@
         ],
         mensajeExito: "¡Excelente! Este mural transforma la fachada en un entorno vivo y sereno que acompaña el andar seguro de las mujeres.",
         audioExito: "¡Excelente! Senderos de tierra y vida brinda serenidad, amplitud y calidez comunitaria al transitar por el Sendero Seguro."
+      },
+      muralCampesinos: {
+        pregunta: "🏆 🦊 🥳 ¿Qué representa este mural sobre los orígenes de la colonia?",
+        opciones: [
+          { texto: "a) La fundación comunitaria y el esfuerzo de las primeras familias sobre la piedra del Pedregal", correcta: true },
+          { texto: "b) Una escena de una película de vaqueros", correcta: false },
+          { texto: "c) Un anuncio publicitario de materiales de construcción", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! Este mural homenajea el origen, la unión vecinal y el esfuerzo colectivo que dio vida a Santo Domingo.",
+        audioExito: "¡Excelente! Raíces del Pedregal nos recuerda el esfuerzo comunitario con el que las familias fundaron nuestro barrio."
       }
     };
 
@@ -693,7 +704,8 @@
     const urlMujerHorizonte = 'https://i.ibb.co/PzCk6fnD/mujer-viendo-al-horizonte.jpg';
     const urlNinaSantoDomingo = 'https://i.ibb.co/VR3ZNhX/NI-A-DE-SANTO-DOMINGO.jpg';
     const urlColibrisAnimado = 'https://i.ibb.co/Lh2W928C/mural-colibis-animado.jpg';
-    const urlMuralPlantasAnimado = 'https://i.ibb.co/C5hNkPcZ/mural-de-plantas-animado.jpg'; // NUEVA IMAGEN AGREGADA
+    const urlMuralPlantasAnimado = 'https://i.ibb.co/C5hNkPcZ/mural-de-plantas-animado.jpg';
+    const urlMuralCampesinos = 'https://i.ibb.co/HTmjc7X9/mural-de-campesinos.jpg'; // NUEVA IMAGEN AGREGADA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -716,7 +728,8 @@
     const muralMiradasFuturoIcon = L.icon({ iconUrl: urlMujerHorizonte, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralSemillasMananaIcon = L.icon({ iconUrl: urlNinaSantoDomingo, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralVueloFlorecerIcon = L.icon({ iconUrl: urlColibrisAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
-    const muralSenderosTierraVidaIcon = L.icon({ iconUrl: urlMuralPlantasAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO PLANTAS
+    const muralSenderosTierraVidaIcon = L.icon({ iconUrl: urlMuralPlantasAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
+    const muralCampesinosIcon = L.icon({ iconUrl: urlMuralCampesinos, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO CAMPESINOS
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -747,7 +760,8 @@
     const muralMiradasFuturoMarker = L.marker(muralMiradasFuturoCoords, { icon: muralMiradasFuturoIcon }).addTo(map);
     const muralSemillasMananaMarker = L.marker(muralSemillasMananaCoords, { icon: muralSemillasMananaIcon }).addTo(map);
     const muralVueloFlorecerMarker = L.marker(muralVueloFlorecerCoords, { icon: muralVueloFlorecerIcon }).addTo(map);
-    const muralSenderosTierraVidaMarker = L.marker(muralSenderosTierraVidaCoords, { icon: muralSenderosTierraVidaIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const muralSenderosTierraVidaMarker = L.marker(muralSenderosTierraVidaCoords, { icon: muralSenderosTierraVidaIcon }).addTo(map);
+    const muralCampesinosMarker = L.marker(muralCampesinosCoords, { icon: muralCampesinosIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -1109,7 +1123,7 @@
       hablarTexto("Mural Vuelo y Florecer: Aves de Santo Domingo. El vuelo libre de colibríes representa el derecho de las mujeres a transitar el territorio con total autonomía y tranquilidad.", 1.0, 1.1);
     });
 
-    // Clic Mural Senderos de Tierra y Vida (NUEVO EVENTO)
+    // Clic Mural Senderos de Tierra y Vida
     muralSenderosTierraVidaMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -1123,6 +1137,22 @@
       cargarQuiz(trivias.muralSenderosTierraVida);
       modal.style.display = 'flex';
       hablarTexto("Mural Senderos de Tierra y Vida: La Naturaleza que Nos Acompaña. Una obra que aporta luz, calma y sensación de amplitud al caminar por el Sendero Seguro.", 1.0, 1.1);
+    });
+
+    // Clic Mural Raíces del Pedregal (NUEVO EVENTO)
+    muralCampesinosMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlMuralCampesinos;
+      modalTitulo.textContent = '🌾 Raíces del Pedregal: Así Nació Nuestro Barrio 🌋';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural rinde tributo a las familias pioneras 👨‍👩‍👧‍👦 que llegaron al terreno volcánico 🌋 para levantar sus primeras viviendas de madera y lámina 🏠. Con faenas comunitarias 🧹, trabajo colectivo 🛠️ y amor por la tierra 🌾, fundaron la colonia sobre el pedregal. ¡Una memoria viva del esfuerzo que dio origen a Santo Domingo! 🧱📜💖✨';
+      linkVideo.style.display = 'none';
+      destinoActual = muralCampesinosCoords;
+      
+      cargarQuiz(trivias.muralCampesinos);
+      modal.style.display = 'flex';
+      hablarTexto("Mural Raíces del Pedregal: Así Nació Nuestro Barrio. Un tributo a las familias pioneras que fundaron Santo Domingo con esfuerzo colectivo.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
