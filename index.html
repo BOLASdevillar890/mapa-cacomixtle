@@ -77,7 +77,7 @@
       cursor: pointer;
     }
 
-    /* Ícono especial compacto (36x36px) para Ajolote, Murales y Micrófonos de Audio */
+    /* Ícono especial compacto (36x36px) para Murales, Ajolote y Micrófonos de Audio */
     .leaflet-marker-icon.custom-icon-small {
       border-radius: 50%;
       border: 2px solid #FFD54F;
@@ -451,7 +451,8 @@
     const casaTresRCoords = [19.318350732729414, -99.16952214102503];
     const audioDonVictorCoords = [19.33238888888889, -99.16208333333333];
     const muralAjoloteCoords = [19.329808466647112, -99.16285897904436];
-    const muralMujerTrabajandoCoords = [19.32629242313433, -99.16419192883566]; // NUEVO PUNTO
+    const muralMujerTrabajandoCoords = [19.32629242313433, -99.16419192883566];
+    const muralVolcanXitleCoords = [19.32856159626359, -99.16315367116435]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -605,6 +606,16 @@
         ],
         mensajeExito: "¡Excelente! El mural visibiliza la labor cotidiana de las mujeres como pilar del sostén comunitario.",
         audioExito: "¡Excelente! Reconocer el trabajo de cuidados y la labor de las mujeres es un acto de justicia e historia para Santo Domingo."
+      },
+      muralVolcanXitle: {
+        pregunta: "🏆 🦊 🥳 ¿Qué evento geológico dio origen a la roca volcánica sobre la que se construyó el Pedregal?",
+        opciones: [
+          { texto: "a) La erupción del volcán Xitle", correcta: true },
+          { texto: "b) Un sismo tectónico submarino", correcta: false },
+          { texto: "c) El impacto de un meteorito antiguo", correcta: false }
+        ],
+        mensajeExito: "¡Correcto! La erupción del volcán Xitle creó la roca basalto que sostiene a Santo Domingo.",
+        audioExito: "¡Correcto! La erupción del volcán Xitle dio origen al suelo rocoso de nuestro barrio."
       }
     };
 
@@ -633,7 +644,8 @@
     const urlCasaTresR = 'https://i.ibb.co/LXP0ccBk/FACHADA-CASA-DE-LAS-3-R.jpg';
     const urlFotoDonVictor = 'https://i.ibb.co/XxqvW4tX/foto-animada.jpg';
     const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg';
-    const urlMujerTrabajando = 'https://i.ibb.co/SXFDQK7j/mujer-lavando-2.jpg'; // NUEVA IMAGEN AGREGADA
+    const urlMujerTrabajando = 'https://i.ibb.co/SXFDQK7j/mujer-lavando-2.jpg';
+    const urlVolcanAnimado = 'https://i.ibb.co/zhcZxFSd/VOLVAN-ANIMADO.jpg'; // NUEVA IMAGEN VOLCÁN
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -651,7 +663,8 @@
 
     // Marcadores compactos (36x36px)
     const muralAjoloteIcon = L.icon({ iconUrl: urlAjoloteAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
-    const muralMujerTrabajandoIcon = L.icon({ iconUrl: urlMujerTrabajando, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO
+    const muralMujerTrabajandoIcon = L.icon({ iconUrl: urlMujerTrabajando, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
+    const muralVolcanXitleIcon = L.icon({ iconUrl: urlVolcanAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO VOLCÁN
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -677,7 +690,8 @@
     const casaTresRMarker = L.marker(casaTresRCoords, { icon: casaTresRIcon }).addTo(map);
     const audioDonVictorMarker = L.marker(audioDonVictorCoords, { icon: audioMemoriaIcon }).addTo(map);
     const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map);
-    const muralMujerTrabajandoMarker = L.marker(muralMujerTrabajandoCoords, { icon: muralMujerTrabajandoIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const muralMujerTrabajandoMarker = L.marker(muralMujerTrabajandoCoords, { icon: muralMujerTrabajandoIcon }).addTo(map);
+    const muralVolcanXitleMarker = L.marker(muralVolcanXitleCoords, { icon: muralVolcanXitleIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -955,7 +969,7 @@
       hablarTexto("Mural del Ajolote en el Sendero Seguro de la calle Papalot. Un homenaje a la fuerza de las mujeres y a la resiliencia comunitaria.", 1.0, 1.1);
     });
 
-    // Clic Mural Mujer Trabajando (NUEVO EVENTO)
+    // Clic Mural Mujer Trabajando
     muralMujerTrabajandoMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -970,6 +984,23 @@
       cargarQuiz(trivias.muralMujerTrabajando);
       modal.style.display = 'flex';
       hablarTexto("Mural Mujer trabajando. Un homenaje a la memoria histórica y al trabajo no remunerado de las mujeres del barrio.", 1.0, 1.1);
+    });
+
+    // Clic Mural Volcán Xitle (NUEVO EVENTO)
+    muralVolcanXitleMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlVolcanAnimado;
+      modalTitulo.textContent = '🌋 El Origen de Nuestra Piedra: Xitle y Territorio 🏔️';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural 🎨 captura la erupción mítica del volcán Xitle, 🌋 el evento geológico que dio origen a la roca 🪨 basalto sobre la que hoy se erige el Pedregal de Santo Domingo. A través de un estilo gráfico vibrante, el estallido de lava ardiente simboliza el momento cero del territorio y la fuerza 🏋🏻‍♀️ transformadora de la naturaleza. 🌿 Integrado al Sendero Seguro de la calle Papalot, la obra rescata la memoria histórica ⏳ del suelo que sostiene al barrio, transformando un portón cotidiano en un símbolo de arraigo. En este camino, recordar el origen de la tierra refuerza la identidad colectiva. 🌋🏠💖';
+      linkVideo.href = 'https://drive.google.com/file/d/1Eo385lxBxi3rYPzjxzIEPD086FrfZdZo/view?usp=sharing';
+      linkVideo.style.display = 'inline-block';
+      destinoActual = muralVolcanXitleCoords;
+      
+      cargarQuiz(trivias.muralVolcanXitle);
+      modal.style.display = 'flex';
+      hablarTexto("Mural El Origen de Nuestra Piedra: Xitle y Territorio. Un tributo al origen geológico de la roca volcánica del Pedregal.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
