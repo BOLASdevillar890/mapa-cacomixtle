@@ -77,7 +77,7 @@
       cursor: pointer;
     }
 
-    /* Ícono especial compacto (36x36px) para Ajolote y Micrófonos de Audio */
+    /* Ícono especial compacto (36x36px) para Ajolote, Murales y Micrófonos de Audio */
     .leaflet-marker-icon.custom-icon-small {
       border-radius: 50%;
       border: 2px solid #FFD54F;
@@ -451,6 +451,7 @@
     const casaTresRCoords = [19.318350732729414, -99.16952214102503];
     const audioDonVictorCoords = [19.33238888888889, -99.16208333333333];
     const muralAjoloteCoords = [19.329808466647112, -99.16285897904436];
+    const muralMujerTrabajandoCoords = [19.32629242313433, -99.16419192883566]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -594,6 +595,16 @@
         ],
         mensajeExito: "¡Excelente! El ajolote representa la resiliencia comunitaria y la conservación de la naturaleza en nuestro Pedregal.",
         audioExito: "¡Excelente! El ajolote simboliza la resiliencia y la fuerza del cuidado comunitario en Santo Domingo."
+      },
+      muralMujerTrabajando: {
+        pregunta: "🏆 🦊 🥳 ¿Qué visibiliza el mural 'Mujer trabajando' en el Sendero Seguro?",
+        opciones: [
+          { texto: "a) El trabajo cotidiano no remunerado y la memoria histórica de las mujeres del barrio", correcta: true },
+          { texto: "b) Un anuncio publicitario de electrodomésticos", correcta: false },
+          { texto: "c) Una competencia deportiva internacional", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! El mural visibiliza la labor cotidiana de las mujeres como pilar del sostén comunitario.",
+        audioExito: "¡Excelente! Reconocer el trabajo de cuidados y la labor de las mujeres es un acto de justicia e historia para Santo Domingo."
       }
     };
 
@@ -622,6 +633,7 @@
     const urlCasaTresR = 'https://i.ibb.co/LXP0ccBk/FACHADA-CASA-DE-LAS-3-R.jpg';
     const urlFotoDonVictor = 'https://i.ibb.co/XxqvW4tX/foto-animada.jpg';
     const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg';
+    const urlMujerTrabajando = 'https://i.ibb.co/SXFDQK7j/mujer-lavando-2.jpg'; // NUEVA IMAGEN AGREGADA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -637,8 +649,9 @@
     const hechoEnSanto8Icon = L.icon({ iconUrl: urlLogoHechoEnSanto8, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
     const casaTresRIcon = L.icon({ iconUrl: urlCasaTresR, iconSize: [60, 60], iconAnchor: [30, 30], popupAnchor: [0, -30], className: 'custom-icon' });
 
-    // Marcador de tamaño idéntico a los micrófonos (36x36px) para el Mural del Ajolote
+    // Marcadores compactos (36x36px)
     const muralAjoloteIcon = L.icon({ iconUrl: urlAjoloteAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
+    const muralMujerTrabajandoIcon = L.icon({ iconUrl: urlMujerTrabajando, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -664,6 +677,7 @@
     const casaTresRMarker = L.marker(casaTresRCoords, { icon: casaTresRIcon }).addTo(map);
     const audioDonVictorMarker = L.marker(audioDonVictorCoords, { icon: audioMemoriaIcon }).addTo(map);
     const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map);
+    const muralMujerTrabajandoMarker = L.marker(muralMujerTrabajandoCoords, { icon: muralMujerTrabajandoIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -932,13 +946,30 @@
       modalTitulo.textContent = '🎨 MURAL DEL AJOLOTE 🌿';
       burbujaPregon.style.display = 'none';
       textoDescripcion.innerHTML = 'Este mural 🎨 en el Sendero Seguro de la calle Papalot es un homenaje a la fuerza de las mujeres 👩🏻‍🤝‍👩🏼 de Santo Domingo y su papel central en la construcción del territorio 🧱. Al centro, la mirada firme de una joven vestida con bordados tradicionales 👚 representa el empoderamiento y la memoria histórica del barrio, mientras que el ajolote acunado en sus manos simboliza la resiliencia comunitaria y el cuidado del entorno natural 🌿. En la base, 🌳 el árbol de la vida y el paisaje ancestral entretejen la identidad colectiva con el legado de las generaciones pasadas ⏳. La obra transforma el espacio público en un refugio de convivencia y respeto, donde la seguridad de las mujeres se erige como el verdadero pilar de la comunidad. 🏋🏻‍♀️';
-      linkVideo.href = 'https://drive.google.com/file/d/1eAcDuFagQzWmL4E46XVX9yUET_qJh809/view?usp=sharing'; // NUEVO LINK DE VIDEO
+      linkVideo.href = 'https://drive.google.com/file/d/1eAcDuFagQzWmL4E46XVX9yUET_qJh809/view?usp=sharing';
       linkVideo.style.display = 'inline-block';
       destinoActual = muralAjoloteCoords;
       
       cargarQuiz(trivias.muralAjolote);
       modal.style.display = 'flex';
       hablarTexto("Mural del Ajolote en el Sendero Seguro de la calle Papalot. Un homenaje a la fuerza de las mujeres y a la resiliencia comunitaria.", 1.0, 1.1);
+    });
+
+    // Clic Mural Mujer Trabajando (NUEVO EVENTO)
+    muralMujerTrabajandoMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlMujerTrabajando;
+      modalTitulo.textContent = '👩🏻‍🤝‍👩🏼 Mujer trabajando 🏋🏻‍♀️';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural rinde un emotivo homenaje a la memoria histórica 📜 y al trabajo no remunerado de las mujeres del barrio, visibilizando la labor cotidiana de la mujer 👩🏻‍🤝‍👩🏼 como pilar del sostén comunitario. Enmarcada en un paisaje agrícola de maíz y cerros morados, 🌽 la obra evoca las raíces del territorio 🍃 y el legado de las abuelas de Santo Domingo 👵🏼. Su integración directa en la fachada de la vivienda transforma la arquitectura cotidiana 🏠 en un espacio de dignidad y acompañamiento visual. En el Sendero Seguro, esta pintura 🖼️ reafirma que habitar el espacio público con tranquilidad es también un acto de justicia y reconocimiento a su fuerza. 👩🏻‍🤝‍👩🏼💖✨';
+      linkVideo.href = 'https://drive.google.com/file/d/1V3i7Azh9XqlnJcnhQORz5cdGIH6Kt1Bs/view?usp=sharing';
+      linkVideo.style.display = 'inline-block';
+      destinoActual = muralMujerTrabajandoCoords;
+      
+      cargarQuiz(trivias.muralMujerTrabajando);
+      modal.style.display = 'flex';
+      hablarTexto("Mural Mujer trabajando. Un homenaje a la memoria histórica y al trabajo no remunerado de las mujeres del barrio.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
