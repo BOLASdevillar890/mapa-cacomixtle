@@ -452,7 +452,8 @@
     const audioDonVictorCoords = [19.33238888888889, -99.16208333333333];
     const muralAjoloteCoords = [19.329808466647112, -99.16285897904436];
     const muralMujerTrabajandoCoords = [19.32629242313433, -99.16419192883566];
-    const muralVolcanXitleCoords = [19.32856159626359, -99.16315367116435]; // NUEVO PUNTO
+    const muralVolcanXitleCoords = [19.32856159626359, -99.16315367116435];
+    const muralMiradasFuturoCoords = [19.328910919969864, -99.1629742]; // NUEVO PUNTO
 
     let destinoActual = mercadoCoords;
     let quizActual = null;
@@ -616,6 +617,16 @@
         ],
         mensajeExito: "¡Correcto! La erupción del volcán Xitle creó la roca basalto que sostiene a Santo Domingo.",
         audioExito: "¡Correcto! La erupción del volcán Xitle dio origen al suelo rocoso de nuestro barrio."
+      },
+      muralMiradasFuturo: {
+        pregunta: "🏆 🦊 🥳 ¿Qué representa la mirada firme de la mujer en el mural 'Miradas del Futuro'?",
+        opciones: [
+          { texto: "a) Autonomía, visión de futuro y el derecho pleno a habitar el espacio público", correcta: true },
+          { texto: "b) Una escena dramática de una película de ficción", correcta: false },
+          { texto: "c) Un mapa geográfico de la ciudad", correcta: false }
+        ],
+        mensajeExito: "¡Excelente! Representa la autonomía femenina, la libertad y el derecho a caminar sin temor por el Sendero Seguro.",
+        audioExito: "¡Excelente! Miradas del futuro simboliza la dignidad, la libertad y el derecho a espacios públicos seguros."
       }
     };
 
@@ -645,7 +656,8 @@
     const urlFotoDonVictor = 'https://i.ibb.co/XxqvW4tX/foto-animada.jpg';
     const urlAjoloteAnimado = 'https://i.ibb.co/7x3Vrssm/AJOLOTE-ANIMADO.jpg';
     const urlMujerTrabajando = 'https://i.ibb.co/SXFDQK7j/mujer-lavando-2.jpg';
-    const urlVolcanAnimado = 'https://i.ibb.co/zhcZxFSd/VOLVAN-ANIMADO.jpg'; // NUEVA IMAGEN VOLCÁN
+    const urlVolcanAnimado = 'https://i.ibb.co/zhcZxFSd/VOLVAN-ANIMADO.jpg';
+    const urlMujerHorizonte = 'https://i.ibb.co/PzCk6fnD/mujer-viendo-al-horizonte.jpg'; // NUEVA IMAGEN AGREGADA
 
     // Enlaces de reproducir incrustado de Google Drive para Audios
     const urlAudioEmbedDrive = "https://drive.google.com/file/d/1VIZYx2xqP2rm5UKFayeZHizorWRMqgGr/preview";
@@ -664,7 +676,8 @@
     // Marcadores compactos (36x36px)
     const muralAjoloteIcon = L.icon({ iconUrl: urlAjoloteAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
     const muralMujerTrabajandoIcon = L.icon({ iconUrl: urlMujerTrabajando, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
-    const muralVolcanXitleIcon = L.icon({ iconUrl: urlVolcanAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO VOLCÁN
+    const muralVolcanXitleIcon = L.icon({ iconUrl: urlVolcanAnimado, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' });
+    const muralMiradasFuturoIcon = L.icon({ iconUrl: urlMujerHorizonte, iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -18], className: 'custom-icon-small' }); // NUEVO ÍCONO
 
     // Ícono DIV personalizado con emoji para el Audio de la Memoria (36x36px)
     const audioMemoriaIcon = L.divIcon({
@@ -691,7 +704,8 @@
     const audioDonVictorMarker = L.marker(audioDonVictorCoords, { icon: audioMemoriaIcon }).addTo(map);
     const muralAjoloteMarker = L.marker(muralAjoloteCoords, { icon: muralAjoloteIcon }).addTo(map);
     const muralMujerTrabajandoMarker = L.marker(muralMujerTrabajandoCoords, { icon: muralMujerTrabajandoIcon }).addTo(map);
-    const muralVolcanXitleMarker = L.marker(muralVolcanXitleCoords, { icon: muralVolcanXitleIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
+    const muralVolcanXitleMarker = L.marker(muralVolcanXitleCoords, { icon: muralVolcanXitleIcon }).addTo(map);
+    const muralMiradasFuturoMarker = L.marker(muralMiradasFuturoCoords, { icon: muralMiradasFuturoIcon }).addTo(map); // NUEVO MARCADOR AL MAPA
 
     // Elementos DOM del Modal Puntos
     const modal = document.getElementById('modalImagen');
@@ -821,7 +835,7 @@
       imgGrande.src = urlMercadoCopilco;
       modalTitulo.textContent = 'Mercado No. 347 "Copilco El Alto"';
       burbujaPregon.style.display = 'none';
-      textoDescripcion.textContent = 'Nacido de la histórica lucha comunitaria que transformó la roca volcánica en hogar, el Mercado Copilco El Alto es memoria viva del Pedregal de Santo Domingo. Más que un centro de abasto, es un pilar de identidad y tradición donde el esfuerzo colectivo de sus fundadores sigue resonando en cada pasillo. Entre el andar diario de los vecinos, la calidez de sus comerciantes y el sazón de su gente, el mercado resguarda la esencia solidaria de un barrio que se construyó con las manos de su propia comunidad.';
+      textoDescripcion.textContent = 'Nacido de la histórica lucha comunitaria que transformó la roca volcánica en hogar, el Mercado Copilco El Alto es memoria viva del Pedregal de Santo Domingo. Más que un centro de abasto, es un pilar de identidad y tradición donde el esfuerzo colectivo de sus fundadores sigue resonando en cada pasillo. Entre el andar diario de los vecinos, la calidez de sus comerciantes y el sazón de su gente, el mercado resguarda la esencia solidaria de un barrio que se construyó con las hands de su propia comunidad.';
       linkVideo.href = 'https://drive.google.com/file/d/1MRsbJUCbXXKFMwJo88o_Pw89Ybjf3BWO/view?usp=sharing';
       linkVideo.style.display = 'inline-block';
       destinoActual = mercadoCopilcoCoords;
@@ -986,7 +1000,7 @@
       hablarTexto("Mural Mujer trabajando. Un homenaje a la memoria histórica y al trabajo no remunerado de las mujeres del barrio.", 1.0, 1.1);
     });
 
-    // Clic Mural Volcán Xitle (NUEVO EVENTO)
+    // Clic Mural Volcán Xitle
     muralVolcanXitleMarker.on('click', function () {
       contenedorAudioDrive.style.display = 'none';
       iframeAudio.src = "";
@@ -1001,6 +1015,23 @@
       cargarQuiz(trivias.muralVolcanXitle);
       modal.style.display = 'flex';
       hablarTexto("Mural El Origen de Nuestra Piedra: Xitle y Territorio. Un tributo al origen geológico de la roca volcánica del Pedregal.", 1.0, 1.1);
+    });
+
+    // Clic Mural Miradas del Futuro (NUEVO EVENTO)
+    muralMiradasFuturoMarker.on('click', function () {
+      contenedorAudioDrive.style.display = 'none';
+      iframeAudio.src = "";
+      imgGrande.src = urlMujerHorizonte;
+      modalTitulo.textContent = '👁️ Miradas del Futuro: Memoria y Esperanza al Atardecer 🌅';
+      burbujaPregon.style.display = 'none';
+      textoDescripcion.innerHTML = 'Este mural plasma la mirada firme de una mujer 👩🏻‍🤝‍👩🏼 vestida con rebozo tradicional, contemplando el horizonte 🏔️ como símbolo de autonomía, visión de futuro y soberanía sobre el espacio público. Enmarcada por un vibrante atardecer ☀️ lacustre y el vuelo libre de las aves, 🐦 la obra conecta la dignidad femenina con la memoria ancestral del entorno natural 🌿 de la Cuenca de México. Su presencia en la calle Papalot transforma la fachada urbana 🏠 en un resguardo de calma, 😌 acompañando el andar diario de las vecinas de Santo Domingo y reafirmando que un sendero seguro se construye con memoria, libertad 🕊️ y el pleno derecho a habitar la calle sin temor. 💖✨';
+      linkVideo.href = 'https://drive.google.com/file/d/1wQon995m5AIOM8lqdAI2J-tzZ64GR0Xy/view?usp=sharing';
+      linkVideo.style.display = 'inline-block';
+      destinoActual = muralMiradasFuturoCoords;
+      
+      cargarQuiz(trivias.muralMiradasFuturo);
+      modal.style.display = 'flex';
+      hablarTexto("Mural Miradas del Futuro: Memoria y Esperanza al Atardecer. Una obra que representa la autonomía, dignidad y libertad de habitar nuestras calles en paz.", 1.0, 1.1);
     });
 
     btnCerrar.onclick = function() { 
